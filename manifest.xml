@@ -1,0 +1,13 @@
+---
+declared-services:
+  my-tone-analyzer-service:
+    label: tone_analyzer
+    plan: standard
+applications:
+- services:
+  - my-tone-analyzer-service
+  name: space
+  command: npm start
+  path: .
+  instances: 1
+  memory: 512MB
