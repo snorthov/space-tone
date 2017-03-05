@@ -93,7 +93,7 @@ function getAstros(args) {
 function getTone(astro, done) {
 	var xhr = new XMLHttpRequest();
 	var args = params({screen_name : astro.twitter});
-	xhr.open("GET", GET_TONE + args, true);
+	xhr.open("GET", GET_TONE + args);
 	xhr.responseType = "json";
 	xhr.onload = function() {
 		if (xhr.status === 200) {
