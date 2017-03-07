@@ -3,9 +3,49 @@
 var dotenv = require('dotenv');
 dotenv. load({silent: true});
 
+var fs = require('fs');
+var http = require('http');
 var express = require('express');
 var app = express();
-app.use(express.static("public"));
+
+var GET_ASTROS = "/astros";
+var ASTROS_JSON = "public/astros.json";
+var GET_ASTROS_OPEN_NOTIFY = "http://api.open-notify.org/astros.json";
+
+// Serve static content from /public
+app.use('/', express.static(__dirname + "/public"));
+
+app.get(GET_ASTROS + "1", /* @callback */ function(req, resp) {
+	http.get(GET_ASTROS_OPEN_NOTIFY, function(resp2) {
+		var body = "";
+		resp2.on("data", function(data) {
+			body += data;
+		});
+		resp2.on("end", function() {
+			resp.send(JSON.parse(body));
+		});
+	});
+});
+
+// GET the people in space (unused)
+app.get(GET_ASTROS, /* @callback */ function (req, res) {
+	res.sendfile(ASTROS_JSON);
+});
+
+// GET the people in space (unused)
+app.get(GET_ASTROS + "2", /* @callback */ function (req, res) {
+	fs.readFile(ASTROS_JSON, "utf8", function (err, data) {
+		if (err) {
+			//TODO - send better error message
+			res.send(err);
+		} else {
+			res.send(JSON.parse(data));
+		}
+	});
+});
+
+
+var GET_TONE = "/tone";
 
 var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 var toneAnalyzer = new ToneAnalyzerV3({
@@ -24,30 +64,6 @@ var twitterClient = new Twitter({
 	access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 console.log("TWITTER_CLIENT: " + twitterClient);
-
-var GET_ASTROS = "/astros";
-var GET_TONE = "/tone";
-var ASTROS_JSON = "public/astros.json";
-var OPEN_NOTIFY_GET_ASTROS = "http://api.open-notify.org/astros.json";
-
-app.get(GET_ASTROS, /* @callback */ function (req, res) {
-	console.log("GET_ASTROS");
-	res.sendfile(ASTROS_JSON);
-});
-
-var http = require('http');
-app.get(GET_ASTROS + "2", /* @callback */ function (req, resp) {
-	console.log("GET_ASTROS" + "2");
-	http.get(OPEN_NOTIFY_GET_ASTROS, function(resp2) {
-        var body = '';
-        resp2.on('data', function(data) {
-            body += data;
-        });
-        resp2.on('end', function() {
-			resp.send(JSON.parse(body));
-        });
-    });
-});
 
 app.get(GET_TONE, /* @callback */ function(req, res) {
 	console.log("GET_TONE");
@@ -89,3 +105,4 @@ var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 app.listen(port, function() {
 	console.log('Server running on port: %d', port);
 });
+
