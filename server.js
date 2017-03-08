@@ -71,11 +71,11 @@ var twitterClient = new Twitter({
 console.log("TWITTER_CLIENT: " + twitterClient);
 
 app.get(GET_TONE, /* @callback */ function(req, res) {
-	console.log("GET_TONE");
 	var screen_name = req.param('screen_name') || "";
 	if (screen_name && screen_name.charAt(0) === "@") {
 		screen_name = screen_name.substring(1);
 	}
+	console.log("GET_TONE: " + screen_name);
 	var tweetParams = {
 		"screen_name": screen_name,
 		count: 2000
