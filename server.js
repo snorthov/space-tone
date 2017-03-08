@@ -1,17 +1,7 @@
 /*eslint-env node, express*/
 
-console.log("BEFORE - process.env.TWITTER_CONSUMER_KEY: " + process.env.TWITTER_CONSUMER_KEY);
-console.log("BEFORE - process.env.TWITTER_CONSUMER_SECRET: " + process.env.TWITTER_CONSUMER_SECRET);
-console.log("BEFORE - process.env.TWITTER_ACCESS_TOKEN_KEY: " + process.env.TWITTER_ACCESS_TOKEN_KEY);
-console.log("BEFORE - process.env.TWITTER_ACCESS_TOKEN_SECRET: " + process.env.TWITTER_ACCESS_TOKEN_SECRET);
-
 var dotenv = require('dotenv');
 dotenv.load({silent: true});
-
-console.log("AFTER - process.env.TWITTER_CONSUMER_KEY: " + process.env.TWITTER_CONSUMER_KEY);
-console.log("AFTER - process.env.TWITTER_CONSUMER_SECRET: " + process.env.TWITTER_CONSUMER_SECRET);
-console.log("AFTER - process.env.TWITTER_ACCESS_TOKEN_KEY: " + process.env.TWITTER_ACCESS_TOKEN_KEY);
-console.log("AFTER - process.env.TWITTER_ACCESS_TOKEN_SECRET: " + process.env.TWITTER_ACCESS_TOKEN_SECRET);
 
 var fs = require('fs');
 var http = require('http');
