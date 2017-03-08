@@ -15,7 +15,18 @@ var GET_ASTROS_OPEN_NOTIFY = "http://api.open-notify.org/astros.json";
 // Serve static content from /public
 app.use('/', express.static(__dirname + "/public"));
 
-app.get(GET_ASTROS + "1", /* @callback */ function(req, resp) {
+var count = 0;
+function suffix(n) {
+	return n === 0 ? "" : String(n);
+}
+
+// GET the people in space from a file (v )
+app.get(GET_ASTROS + suffix(count++), /* @callback */ function (req, res) {
+	res.sendfile(ASTROS_JSON);
+});
+
+// GET the people in space from the Open Notify API
+app.get(GET_ASTROS + suffix(count++), /* @callback */ function(req, resp) {
 	http.get(GET_ASTROS_OPEN_NOTIFY, function(resp2) {
 		var body = "";
 		resp2.on("data", function(data) {
@@ -27,13 +38,8 @@ app.get(GET_ASTROS + "1", /* @callback */ function(req, resp) {
 	});
 });
 
-// GET the people in space (unused)
-app.get(GET_ASTROS, /* @callback */ function (req, res) {
-	res.sendfile(ASTROS_JSON);
-});
-
-// GET the people in space (unused)
-app.get(GET_ASTROS + "2", /* @callback */ function (req, res) {
+// GET the people in space from a file (v2)
+app.get(GET_ASTROS + suffix(count++), /* @callback */ function (req, res) {
 	fs.readFile(ASTROS_JSON, "utf8", function (err, data) {
 		if (err) {
 			//TODO - send better error message
@@ -43,7 +49,6 @@ app.get(GET_ASTROS + "2", /* @callback */ function (req, res) {
 		}
 	});
 });
-
 
 var GET_TONE = "/tone";
 
@@ -101,6 +106,7 @@ app.get(GET_TONE, /* @callback */ function(req, res) {
 	});
 });
 
+// listen for requests on the host at a port
 var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 app.listen(port, function() {
 	console.log('Server running on port: %d', port);
