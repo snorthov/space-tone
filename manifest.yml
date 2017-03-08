@@ -6,7 +6,7 @@ declared-services:
 applications:
 - services:
   - my-tone-analyzer-service
-  name: space
+  name: space-tone
   command: npm start
   path: .
   instances: 1
