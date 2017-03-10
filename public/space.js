@@ -3,6 +3,7 @@
 var ROOT= location.protocol + "//" + location.host;
 var GET_ASTROS = ROOT + "/astros";
 var GET_TONE = ROOT + "/tone";
+var CONTENTS_ID = "contents";
 
 function main() {
 	getAstros ();
@@ -45,7 +46,7 @@ function getAstros(args) {
 					"<div class='text' id='" + people[i].name + "-text'>" + astroString(people[i]) + "</div>";
 				string += "</div>";
 			}
-			var node = document.getElementById("contents");
+			var node = document.getElementById(CONTENTS_ID);
 			if (node) node.innerHTML = string;
 			for (var i=0; i<people.length; i++) {
 				if (people[i].twitter) {
