@@ -52,22 +52,32 @@ app.get(GET_ASTROS + suffix(count++), /* @callback */ function (req, res) {
 
 var GET_TONE = "/tone";
 
-var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
-var toneAnalyzer = new ToneAnalyzerV3({
-	"url": "https://gateway.watsonplatform.net/tone-analyzer/api",
-	"username": process.env.TONE_ANALYZER_USERNAME,
-	"password": process.env.TONE_ANALYZER_PASSWORD,
-	"version_date": '2016-05-19'
-});
+var toneAnalyzer;
+try {
+	var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+	toneAnalyzer = new ToneAnalyzerV3({
+		"url": "https://gateway.watsonplatform.net/tone-analyzer/api",
+		"username": process.env.TONE_ANALYZER_USERNAME,
+		"password": process.env.TONE_ANALYZER_PASSWORD,
+		"version_date": '2016-05-19'
+	});
+} catch (error) {
+	console.log(error);
+}
 console.log("TONE_ANALYZER: " + toneAnalyzer);
 
-var Twitter = require('twitter');
-var twitterClient = new Twitter({
-	consumer_key: process.env.TWITTER_CONSUMER_KEY,
-	consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-	access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-	access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-});
+var twitterClient;
+try {
+	var Twitter = require('twitter');
+	twitterClient = new Twitter({
+		consumer_key: process.env.TWITTER_CONSUMER_KEY,
+		consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+		access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+		access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+	});
+} catch (error) {
+	console.log(error);
+}
 console.log("TWITTER_CLIENT: " + twitterClient);
 
 app.get(GET_TONE, /* @callback */ function(req, res) {
@@ -80,30 +90,40 @@ app.get(GET_TONE, /* @callback */ function(req, res) {
 		"screen_name": screen_name,
 		count: 2000
 	};
-	twitterClient.get('statuses/user_timeline', tweetParams, /* @callback */ function(err, tweets, res2) {
-		if (err) {
-			console.log("TWITTER_ERROR: " + screen_name + " " + err.message);
-			res.status(500);
-			res.json(err.message);
-			return;
-		}
-		console.log("TWITTER_SUCCESS: " + screen_name);
-		var tweets = tweets.map(function(x) {return x["text"];});
-		var tweets = tweets.reduce(function (p, n) {return p + "\n" + n;}, "");
-		var toneParams = {
-			text : tweets
-		};
-		toneAnalyzer.tone(toneParams, function(err, data) {
+	if (twitterClient) {
+		twitterClient.get('statuses/user_timeline', tweetParams, /* @callback */ function(err, tweets, res2) {
 			if (err) {
-				console.log("TONE_ERROR: " + screen_name + " " + err.error);
-				res.status(err.code);
-				res.json(err);
+				console.log("TWITTER_ERROR: " + screen_name + " " + err.message);
+				res.status(500);
+				res.json(err.message);
+				return;
+			}
+			console.log("TWITTER_SUCCESS: " + screen_name);
+			var tweets = tweets.map(function(x) {return x["text"];});
+			var tweets = tweets.reduce(function (p, n) {return p + "\n" + n;}, "");
+			var toneParams = {
+				text : tweets
+			};
+			if (toneAnalyzer) {
+				toneAnalyzer.tone(toneParams, function(err, data) {
+					if (err) {
+						console.log("TONE_ERROR: " + screen_name + " " + err.error);
+						res.status(err.code);
+						res.json(err);
+					} else {
+						console.log("TONE_SUCCESS: " + screen_name + " ");
+						res.json(data);
+					}
+				});
 			} else {
-				console.log("TONE_SUCCESS: " + screen_name + " ");
-				res.json(data);
+				res.status(500);
+				res.json("GET_TONE: Tone Analysis has not been initialized");
 			}
 		});
-	});
+	} else {
+		res.status(500);
+		res.json("GET_TONE: Twitter has not been initialized");
+	}
 });
 
 // listen for requests on the host at a port

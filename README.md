@@ -1,1 +1,1 @@
-Who is in space?  Are they communicating to the earth effectively?  Let's find out
+Who is in space?  How are well are the communicating?

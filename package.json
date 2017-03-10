@@ -1,5 +1,7 @@
 {
   "name": "space-tone",
+  "version" : "0.0.1",
+  "description" : "Who is in space?  How are well are the communicating?",
   "scripts": {
     "start": "node server.js"
   },
