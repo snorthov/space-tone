@@ -93,9 +93,9 @@ app.get(GET_TONE, /* @callback */ function(req, res) {
 	if (twitterClient) {
 		twitterClient.get('statuses/user_timeline', tweetParams, /* @callback */ function(err, tweets, res2) {
 			if (err) {
-				console.log("TWITTER_ERROR: " + screen_name + " " + err.message);
+				console.log("TWITTER_ERROR: " + screen_name + " " + JSON.stringify(err));
 				res.status(500);
-				res.json(err.message);
+				res.json(err);
 				return;
 			}
 			console.log("TWITTER_SUCCESS: " + screen_name);
@@ -107,7 +107,7 @@ app.get(GET_TONE, /* @callback */ function(req, res) {
 			if (toneAnalyzer) {
 				toneAnalyzer.tone(toneParams, function(err, data) {
 					if (err) {
-						console.log("TONE_ERROR: " + screen_name + " " + err.error);
+						console.log("TONE_ERROR: " + screen_name + " " + JSON.stringify(err));
 						res.status(err.code);
 						res.json(err);
 					} else {
