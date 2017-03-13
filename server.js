@@ -1,7 +1,11 @@
 /*eslint-env node, express*/
 
-var dotenv = require('dotenv');
-dotenv.load({silent: true});
+try {
+	var dotenv = require('dotenv');
+	dotenv.load({silent: true});
+} catch (error) {
+	console.log(error);
+}
 
 var fs = require('fs');
 var http = require('http');
