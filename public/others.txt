@@ -19,4 +19,10 @@
 		"name": "Barack Obama",
 		"twitter": "@BarackObaman"
 	}, {
-		
+
+
+	}, {
+		"craft": "ISS",
+		"name": "Justin Trudeau",
+		"twitter": "@JustinTrudeau"
+	}, {
