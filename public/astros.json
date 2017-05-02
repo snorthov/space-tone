@@ -1,17 +1,6 @@
 {
+	"number": 5,
 	"people": [{
-		"craft": "ISS",
-		"name": "Sergey Rizhikov",
-		"twitter": ""
-	}, {
-		"craft": "ISS",
-		"name": "Andrey Borisenko",
-		"twitter": ""
-	}, {
-		"craft": "ISS",
-		"name": "Shane Kimbrough",
-		"twitter": "@astro_kimbrough"
-	}, {
 		"craft": "ISS",
 		"name": "Oleg Novitskiy",
 		"twitter": ""
@@ -23,7 +12,14 @@
 		"craft": "ISS",
 		"name": "Peggy Whitson",
 		"twitter": "@AstroPeggy"
+	}, {
+		"craft": "ISS",
+		"name": "Fyodor Yurchikhin",
+		"twitter": ""
+	}, {
+		"craft": "ISS",
+		"name": "Jack Fischer",
+		"twitter": "@Astro2fish"
 	}],
-	"message": "success",
-	"number": 6
+	"message": "success"
 }
