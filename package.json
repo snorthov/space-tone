@@ -3,12 +3,21 @@
   "version" : "0.0.1",
   "description" : "Who is in space?  How are well are the communicating?",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node test.js"
   },
   "dependencies": {
     "dotenv": "^4.0.0",
 	"twitter": "1.2.5",
     "express": "^4.14.0",
     "watson-developer-cloud": "^2.15.2"
+  },
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-minifier": "latest",
+    "gulp-zip": "latest",
+    "selenium-webdriver": "2.42.1",
+    "saucelabs": "0.1.1",
+    "sonarqube-scanner" : "latest"
   }
 }
