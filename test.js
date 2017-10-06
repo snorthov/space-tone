@@ -16,8 +16,8 @@ var ACCESS_KEY = process.env.SAUCE_ACCESS_KEY;
 var driver = new webdriver.Builder().
 	withCapabilities({
 		'browserName': 'chrome',
-		'platform': 'Windows XP',
-		'version': '43.0',
+		'platform': 'Windows 10',
+		'version': '50.0',
 		'username': USER_NAME,
 		'accessKey': ACCESS_KEY,
 		'name': NAME
