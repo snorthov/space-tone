@@ -1,41 +1,32 @@
-	}, {
-		"craft": "ISS",
-		"name": "Meryl Streep Page",
-		"twitter": "@MerylStreepPage"
-	}, {
-		"craft": "ISS",
-		"name": "Alec Baldwin",
-		"twitter": "@ABFalecbaldwin"
-	}, {
-		"craft": "ISS",
-		"name": "Donald Trump",
-		"twitter": "@realDonaldTrump"
-	}, {
-		"craft": "ISS",
-		"name": "Hillary Clinton",
-		"twitter": "@HillaryClinton"
-	}, {
-		"craft": "ISS",
-		"name": "Bernie Sanders",
-		"twitter": "@BernieSanders"
-	}, {
-		"craft": "ISS",
-		"name": "Barack Obama",
-		"twitter": "@BarackObaman"
-	}, {
 
-
-	}, {
-		"craft": "ISS",
-		"name": "Justin Trudeau",
-		"twitter": "@JustinTrudeau"
-	}, {
-		
-		
-	}, {
-		"craft": "ISS",
-		"name": "Alec Baldwin",
-		"twitter": "@ABFalecbaldwin"
-	}, {
+			}, {
+				"craft": "ISS",
+				"name": "Meryl Streep",
+				"twitter": "@MerylStreepPage"
+			}, {
+				"craft": "ISS",
+				"name": "Joe Biden",
+				"twitter": "@JoeBiden"
+			}, {
+				"craft": "ISS",
+				"name": "Donald Trump",
+				"twitter": "@realDonaldTrump"
+			}, {
+				"craft": "ISS",
+				"name": "Hillary Clinton",
+				"twitter": "@HillaryClinton"
+			}, {
+				"craft": "ISS",
+				"name": "Bernie Sanders",
+				"twitter": "@BernieSanders"
+			}, {
+				"craft": "ISS",
+				"name": "Barack Obama",
+				"twitter": "@BarackObaman"
+			}, {
+				"craft": "ISS",
+				"name": "Justin Trudeau",
+				"twitter": "@JustinTrudeau"
+			}, {
 		
 		

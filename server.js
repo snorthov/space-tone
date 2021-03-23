@@ -55,19 +55,23 @@ app.get(GET_ASTROS + suffix(count++), /* @callback */ function (req, res) {
 });
 
 var GET_TONE = "/tone";
+var TEST_TEXT =  'As the use of typewriters grew in the late 19th century, the phrase began appearing in typing lesson books as a practice sentence. Early examples include How to Become Expert in Typewriting: A Complete Instructor Designed Especially for the Remington Typewriter (1890),[5] and Typewriting Instructor and Stenographers Hand-book (1892). By the turn of the 20th century, the phrase had become widely known. In the January 10, 1903, issue of Pitmans Phonetic Journal, it is referred to as "the well known memorized typing line embracing all the letters of the alphabet".[6] Robert Baden-Powells book Scouting for Boys (1908) uses the phrase as a practice sentence for signaling.[1]';
 
 var toneAnalyzer;
 try {
-	var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+	var ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
+	var { IamAuthenticator } = require('ibm-watson/auth');
 	toneAnalyzer = new ToneAnalyzerV3({
-		"url": "https://gateway.watsonplatform.net/tone-analyzer/api",
-		"username": process.env.TONE_ANALYZER_USERNAME,
-		"password": process.env.TONE_ANALYZER_PASSWORD,
-		"version_date": '2016-05-19'
+		version: '2019-10-10',
+		authenticator: new IamAuthenticator({
+			apikey: process.env.TONE_ANALYZER_IAM_APIKEY,
+		}),
+		url: process.env.TONE_ANALYZER_URL,
 	});
 } catch (error) {
 	console.log(error);
 }
+
 console.log("TONE_ANALYZER: " + toneAnalyzer);
 
 var twitterClient;
@@ -97,7 +101,7 @@ app.get(GET_TONE, /* @callback */ function(req, res) {
 	if (twitterClient) {
 		twitterClient.get('statuses/user_timeline', tweetParams, /* @callback */ function(err, tweets, res2) {
 			if (err) {
-				console.log("TWITTER_ERROR: " + screen_name + " " + JSON.stringify(err));
+				console.log("TWITTER_ERROR: " + screen_name + " " + err.message);
 				res.status(500);
 				res.json(err);
 				return;
@@ -105,15 +109,17 @@ app.get(GET_TONE, /* @callback */ function(req, res) {
 			console.log("TWITTER_SUCCESS: " + screen_name);
 			var tweets = tweets.map(function(x) {return x["text"];});
 			var tweets = tweets.reduce(function (p, n) {return p + "\n" + n;}, "");
+			//console.log(tweets);
 			var toneParams = {
-				text : tweets
+				toneInput : tweets, // TEST_TEXT,
+				contentType : "text/plain;charset=utf-8"
 			};
 			if (toneAnalyzer) {
 				toneAnalyzer.tone(toneParams, function(err, data) {
 					if (err) {
-						console.log("TONE_ERROR: " + screen_name + " " + JSON.stringify(err));
+						console.log("TONE_ERROR: " + screen_name + " " + err.message);
 						res.status(err.code);
-						res.json(err);
+						res.json(err.message);
 					} else {
 						console.log("TONE_SUCCESS: " + screen_name + " ");
 						res.json(data);

@@ -4,6 +4,7 @@ var ROOT= location.protocol + "//" + location.host;
 var GET_ASTROS = ROOT + "/astros";
 var GET_TONE = ROOT + "/tone";
 var CONTENTS_ID = "contents";
+var TONES = ["Anger", "Fear", "Joy", "Sadness", "Analytical", "Confident", "Tentative"];
 
 function main() {
 	getAstros ();
@@ -60,17 +61,26 @@ function getAstros(args) {
 							if (data) {
 								var text = document.getElementById(astro.name + "-text");
 								if (text) {
-									var tones = data.document_tone.tone_categories[0].tones;
-									var total = tones.reduce(function(p, n) {return p + n.score;}, 0);
-									var percents = tones.map(function(x) {
-										return {
-											tone_id: x.tone_id,
-											score: total === 0 ? 0 : x.score / total * 100
-										};
-									});
-									var percent = Math.trunc(percents[0].score + percents[1].score + percents[2].score);
-									text.innerHTML = astroString(astro, percents);
-									c.style.background = "linear-gradient(to right, rgb(255,0,0) 0%, rgb(255,170,0) " + percent + "%, rgb(0,255,0) 100%)";
+									try {
+										var tones = data.result.document_tone.tones;
+										var total = tones.reduce(function(p, n) {return p + n.score;}, 0);
+										var percents = tones.map(function(x) {
+											return {
+												tone_id: x.tone_id,
+												score: total === 0 ? 0 : x.score / total * 100
+											};
+										});
+										var percent = percents.slice(0, percents.length / 2).reduce(function(p, n) {return p + Math.trunc(n.score)}, 0);
+										console.log(percents.length + "  " + percent);
+										text.innerHTML = astroString(astro, percents);
+										if (percents.length !== 0) {
+											c.style.background = "linear-gradient(to right, rgb(255,0,0) 0%, rgb(255,170,0) " + percent + "%, rgb(0,255,0) 100%)";
+										} else {
+											c.classList.add("none");
+										}
+									} catch (error) {
+										c.classList.add("none");
+									}
 								} else {
 									c.classList.add("none");
 								}
